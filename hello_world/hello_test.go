@@ -2,13 +2,14 @@ package hello_world
 
 import "testing"
 
-func assert(t testing.TB, got, want string) {
-	if got != want {
-		t.Errorf("got %q want %q", got, want)
-	}
-}
-
 func TestHelloSuite(t *testing.T) {
+	assert := func(t testing.TB, got, want string) {
+		t.Helper()
+		if got != want {
+			t.Errorf("got %q want %q", got, want)
+		}
+	}
+
 	t.Run("Say hello to a given name", func(t *testing.T) {
 		testSuites := map[string]string{
 			"Hello":   "Thang",
@@ -17,7 +18,7 @@ func TestHelloSuite(t *testing.T) {
 
 		for greeting, name := range testSuites {
 			got := Hello(greeting, name)
-			want := greeting + " " + name + "!"
+			want := greeting + " " + name + ""
 			assert(t, got, want)
 		}
 	},

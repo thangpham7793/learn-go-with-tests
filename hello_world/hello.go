@@ -4,20 +4,25 @@ import "fmt"
 
 type HelloFunc = func(n string) string
 
-func Hello(greeting, name string) string {
+var TranslateHello = map[string]string{
+	"English": "Hello",
+	"French":  "Bonjour",
+}
+
+func Hello(language, name string) string {
 	if name == "" {
 		name = "World"
 	}
 
-	if greeting == "" {
-		greeting = "Hello"
+	if hi, ok := TranslateHello[language]; ok {
+		return fmt.Sprintf("%s %s!", hi, name)
 	}
 
-	return fmt.Sprintf("%s %s!", greeting, name)
+	return fmt.Sprintf("%s %s!", TranslateHello["English"], name)
 }
 
-func HelloWith(greeting string) HelloFunc {
+func HelloIn(language string) HelloFunc {
 	return func(name string) string {
-		return Hello(greeting, name)
+		return Hello(language, name)
 	}
 }

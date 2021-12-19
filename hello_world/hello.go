@@ -9,6 +9,10 @@ func Hello(greeting string, name string) string {
 		name = "World"
 	}
 
+	if greeting == "" {
+		greeting = "Hello"
+	}
+
 	return fmt.Sprintf("%s %s!", greeting, name)
 }
 

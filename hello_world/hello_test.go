@@ -11,56 +11,49 @@ func TestHelloSuite(t *testing.T) {
 	}
 
 	t.Run("Say hello to a given name", func(t *testing.T) {
-		testSuites := map[string]string{
-			"Hello":   "Thang",
-			"Bonjour": "Tommy",
+		testSuites := map[string][]string{
+			"Hello Thang!":   {"Hello", "Thang"},
+			"Bonjour Thang!": {"Bonjour", "Thang"},
 		}
 
-		for greeting, name := range testSuites {
-			got := Hello(greeting, name)
-			want := greeting + " " + name + ""
+		for want, args := range testSuites {
+			got := Hello(args[0], args[1])
 			assert(t, got, want)
 		}
 	},
 	)
 
 	t.Run("Use a different greeting when supplied", func(t *testing.T) {
-
-		testSuites := map[string]string{
-			"Hello":   "Thang",
-			"Bonjour": "Tommy",
+		testSuites := map[string][]string{
+			"Hello Thang!":   {"Hello", "Thang"},
+			"Bonjour Thang!": {"Bonjour", "Thang"},
 		}
 
-		for greeting, name := range testSuites {
-			Greet := HelloWith(greeting)
-			got := Greet(name)
-			want := greeting + " " + name + "!"
+		for want, args := range testSuites {
+			Greet := HelloWith(args[0])
+			got := Greet(args[1])
 			assert(t, got, want)
 		}
 	})
 
 	t.Run("Use 'World' when empty name is given", func(t *testing.T) {
-
-		testSuites := map[string]string{
-			"Hello": "",
+		testSuites := map[string][]string{
+			"Hello World!": {"Hello", ""},
 		}
 
-		for greeting, name := range testSuites {
-			got := Hello(greeting, name)
-			want := "Hello World!"
+		for want, args := range testSuites {
+			got := Hello(args[0], args[1])
 			assert(t, got, want)
 		}
 	})
 
 	t.Run("Use 'Hello' when empty greeting is given", func(t *testing.T) {
-
-		testSuites := map[string]string{
-			"": "Thang",
+		testSuites := map[string][]string{
+			"Hello Thang!": {"", "Thang"},
 		}
 
-		for greeting, name := range testSuites {
-			got := Hello(greeting, name)
-			want := "Hello Thang!"
+		for want, args := range testSuites {
+			got := Hello(args[0], args[1])
 			assert(t, got, want)
 		}
 	})

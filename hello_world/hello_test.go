@@ -57,4 +57,11 @@ func TestHelloSuite(t *testing.T) {
 			assert(t, got, want)
 		}
 	})
+
+	t.Run("Return error if a language is not supported", func(t *testing.T) {
+		_, err := Hello("Thai", "Tom")
+		if err == nil {
+			t.Error("Should return error")
+		}
+	})
 }

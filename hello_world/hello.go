@@ -4,7 +4,7 @@ import "fmt"
 
 type HelloFunc = func(n string) string
 
-func Hello(greeting string, name string) string {
+func Hello(greeting, name string) string {
 	if name == "" {
 		name = "World"
 	}

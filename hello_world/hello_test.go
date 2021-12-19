@@ -2,6 +2,12 @@ package hello_world
 
 import "testing"
 
+func assert(t testing.TB, got, want string) {
+	if got != want {
+		t.Errorf("got %q want %q", got, want)
+	}
+}
+
 func TestHelloSuite(t *testing.T) {
 	t.Run("Say hello to a given name", func(t *testing.T) {
 		testSuites := map[string]string{
@@ -12,9 +18,7 @@ func TestHelloSuite(t *testing.T) {
 		for greeting, name := range testSuites {
 			got := Hello(greeting, name)
 			want := greeting + " " + name + "!"
-			if got != want {
-				t.Errorf("got %q want %q", got, want)
-			}
+			assert(t, got, want)
 		}
 	},
 	)
@@ -30,9 +34,7 @@ func TestHelloSuite(t *testing.T) {
 			Greet := HelloWith(greeting)
 			got := Greet(name)
 			want := greeting + " " + name + "!"
-			if got != want {
-				t.Errorf("got %q want %q", got, want)
-			}
+			assert(t, got, want)
 		}
 	})
 
@@ -45,9 +47,7 @@ func TestHelloSuite(t *testing.T) {
 		for greeting, name := range testSuites {
 			got := Hello(greeting, name)
 			want := "Hello World!"
-			if got != want {
-				t.Errorf("got %q want %q", got, want)
-			}
+			assert(t, got, want)
 		}
 	})
 
@@ -60,9 +60,7 @@ func TestHelloSuite(t *testing.T) {
 		for greeting, name := range testSuites {
 			got := Hello(greeting, name)
 			want := "Hello Thang!"
-			if got != want {
-				t.Errorf("got %q want %q", got, want)
-			}
+			assert(t, got, want)
 		}
 	})
 }

@@ -22,7 +22,13 @@ func TestRepeat(t *testing.T) {
 	})
 }
 
-func ExampleRepeat() {
+func BenchmarkSafeRepeat(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		SafeRepeat("benchmarkinggg", 1)
+	}
+}
+
+func ExampleSafeRepeat() {
 	res, _ := SafeRepeat("ab", 2)
 	fmt.Println(res)
 	// Output: abab

@@ -17,7 +17,7 @@ func TestHelloSuite(t *testing.T) {
 		}
 
 		for want, args := range testSuites {
-			got := Hello(args[0], args[1])
+			got, _ := Hello(args[0], args[1])
 			assert(t, got, want)
 		}
 	},
@@ -31,7 +31,7 @@ func TestHelloSuite(t *testing.T) {
 
 		for want, args := range testSuites {
 			Greet := HelloIn(args[0])
-			got := Greet(args[1])
+			got, _ := Greet(args[1])
 			assert(t, got, want)
 		}
 	})
@@ -42,7 +42,7 @@ func TestHelloSuite(t *testing.T) {
 		}
 
 		for want, args := range testSuites {
-			got := Hello(args[0], args[1])
+			got, _ := Hello(args[0], args[1])
 			assert(t, got, want)
 		}
 	})
@@ -53,7 +53,7 @@ func TestHelloSuite(t *testing.T) {
 		}
 
 		for want, args := range testSuites {
-			got := Hello(args[0], args[1])
+			got, _ := Hello(args[0], args[1])
 			assert(t, got, want)
 		}
 	})

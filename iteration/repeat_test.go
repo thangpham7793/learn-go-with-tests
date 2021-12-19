@@ -6,15 +6,17 @@ import (
 )
 
 func TestRepeat(t *testing.T) {
-	want := "ababab"
-	got, _ := Repeat("ab")
-	if want != got {
-		t.Errorf("Expected %v, got %v", want, got)
-	}
+	t.Run("Should accept a number of time to repeat", func(t *testing.T) {
+		want := "ababab"
+		got, _ := Repeat("ab", 3)
+		if want != got {
+			t.Errorf("Expected %v, got %v", want, got)
+		}
+	})
 }
 
 func ExampleRepeat() {
-	res, _ := Repeat("ab")
+	res, _ := Repeat("ab", 2)
 	fmt.Println(res)
-	// Output: ababab
+	// Output: abab
 }

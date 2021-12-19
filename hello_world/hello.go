@@ -3,6 +3,11 @@ package hello_world
 import "fmt"
 
 type HelloFunc = func(n string) (string, error)
+type UnsupportedLanguageError string
+
+func (e UnsupportedLanguageError) Error() string {
+	return fmt.Sprintf("hello: unsupported language: %v", string(e))
+}
 
 var TranslateHello = map[string]string{
 	"English": "Hello",
@@ -22,7 +27,7 @@ func Hello(language, name string) (string, error) {
 		return fmt.Sprintf("%s %s!", hi, name), nil
 	}
 
-	return "", fmt.Errorf("%s language is not supported", language)
+	return "", UnsupportedLanguageError(language)
 }
 
 func HelloIn(language string) HelloFunc {

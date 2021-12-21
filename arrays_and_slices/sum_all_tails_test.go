@@ -20,11 +20,17 @@ func TestSumAllTails(t *testing.T) {
 
 		for _, tc := range testCases {
 			args := tc.input.([][]int)
-			got := SumAllTails(args...)
+			got, _ := SumAllTails(args...)
 
 			if !reflect.DeepEqual(got, tc.want) {
 				t.Errorf("got %d want %d given %v", got, tc.want, tc.input)
 			}
+		}
+	})
+
+	t.Run("throw error if any slice is empty", func(t *testing.T) {
+		if _, err := SumAllTails([][]int{{}}...); err == nil {
+			t.Error("should throw error if any slice is empty")
 		}
 	})
 }

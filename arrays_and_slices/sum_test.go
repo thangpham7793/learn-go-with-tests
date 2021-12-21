@@ -4,26 +4,29 @@ import (
 	"testing"
 )
 
+type test struct {
+	input interface{}
+	want  int
+}
+
 func TestSum(t *testing.T) {
-	t.Run("collection of 5 numbers", func(t *testing.T) {
-		numbers := [5]int{1, 2, 3, 4, 5}
-
-		got, _ := Sum(numbers)
-		want := 15
-
-		if got != want {
-			t.Errorf("got %d want %d given, %v", got, want, numbers)
+	t.Run("can handle both slice & array", func(t *testing.T) {
+		testCases := []test{
+			{
+				input: [5]int{1, 2, 3, 4, 5},
+				want:  15,
+			},
+			{
+				input: []int{1, 2, 3, 4, 5, 6, 7},
+				want:  28,
+			},
 		}
-	})
 
-	t.Run("collection of any size", func(t *testing.T) {
-		numbers := []int{1, 2, 3, 4, 5, 6, 7}
-		got, _ := Sum(numbers)
-
-		want := 28
-
-		if got != want {
-			t.Errorf("got %d want %d given, %v", got, want, numbers)
+		for _, tc := range testCases {
+			got, _ := Sum(tc.input)
+			if got != tc.want {
+				t.Errorf("got %d want %d given, %v", got, tc.want, tc.input)
+			}
 		}
 	})
 

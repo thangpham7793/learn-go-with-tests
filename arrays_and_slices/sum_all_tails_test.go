@@ -29,8 +29,14 @@ func TestSumAllTails(t *testing.T) {
 	})
 
 	t.Run("throw error if any slice is empty", func(t *testing.T) {
-		if _, err := SumAllTails([][]int{{}}...); err == nil {
+		if _, err := SumAllTails([][]int{}...); err == nil {
 			t.Error("should throw error if any slice is empty")
+		}
+	})
+
+	t.Run("throw error if container slice is empty", func(t *testing.T) {
+		if _, err := SumAllTails([][]int{}...); err == nil {
+			t.Error("should throw error if container slice is empty")
 		}
 	})
 }

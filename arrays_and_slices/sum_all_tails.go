@@ -1,13 +1,19 @@
 package array_and_slices
 
-import "errors"
+import (
+	"errors"
+)
 
 var EmptySliceError = errors.New("no empty slice allowed")
+var NoSliceError = errors.New("must contain at least one slice")
 
-func SumAllTails(args ...[]int) ([]int, error) {
+func SumAllTails(containers ...[]int) ([]int, error) {
 	var res []int
+	if len(containers) == 0 {
+		return nil, EmptySliceError
+	}
 
-	for _, v := range args {
+	for _, v := range containers {
 		if len(v) == 0 {
 			return nil, EmptySliceError
 		}

@@ -6,7 +6,7 @@ import (
 
 type test struct {
 	input interface{}
-	want  int
+	want  interface{}
 }
 
 func TestSum(t *testing.T) {

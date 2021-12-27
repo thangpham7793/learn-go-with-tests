@@ -8,7 +8,6 @@ import (
 )
 
 func TestParse(t *testing.T) {
-
 	dir, _ := os.Getwd()
 	f, _ := ioutil.TempFile(dir, "quiz")
 	f.WriteString("1+1,2")
@@ -21,5 +20,4 @@ func TestParse(t *testing.T) {
 	if reflect.DeepEqual(got, want) {
 		t.Errorf("Got %s want %s", got, want)
 	}
-
 }

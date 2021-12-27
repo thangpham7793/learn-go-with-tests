@@ -2,6 +2,7 @@ package quiz_app
 
 import (
 	"os"
+	"strings"
 	"testing"
 )
 
@@ -21,31 +22,33 @@ func TestQuiz(t *testing.T) {
 		},
 	}
 
-	t.Run("should handle all correct answers", func(t *testing.T) {
-		r, w, _ := os.Pipe()
-		w.WriteString("2\n2\n2\n")
+	simulateUserInput := func(t *testing.T, answers []string) *os.File {
+		t.Helper()
+		reader, writer, _ := os.Pipe()
+		writer.WriteString("\r\n" + strings.Join(answers, "\n"))
 
 		defer func() {
-			w.Close()
+			writer.Close()
 		}()
 
+		return reader
+	}
+
+	t.Run("should handle all correct answers", func(t *testing.T) {
+		reader := simulateUserInput(t, []string{"2", "2", "2"})
+
 		want := 3
-		got, _ := quiz(questions, r)
+		got, _ := quiz(questions, reader)
 		if got != want {
 			t.Errorf("want %d correct answers, got %d", want, got)
 		}
 	})
 
 	t.Run("should handle some incorrect answers", func(t *testing.T) {
-		r, w, _ := os.Pipe()
-		w.WriteString("2\n1\n2\n")
-
-		defer func() {
-			w.Close()
-		}()
+		reader := simulateUserInput(t, []string{"2", "1", "2"})
 
 		want := 2
-		got, _ := quiz(questions, r)
+		got, _ := quiz(questions, reader)
 		if got != want {
 			t.Errorf("want %d correct answers, got %d", want, got)
 		}

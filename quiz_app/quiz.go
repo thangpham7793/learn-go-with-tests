@@ -11,6 +11,13 @@ func quiz(questions []Question, input io.Reader) (int, error) {
 	attempt := ""
 	correct := 0
 
+	fmt.Println("Press enter to start")
+	for {
+		if scanner.Scan() {
+			break
+		}
+	}
+
 	for _, q := range questions {
 		fmt.Println(q.prompt)
 		if scanner.Scan() {

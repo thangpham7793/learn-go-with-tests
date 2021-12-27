@@ -1,6 +1,7 @@
 package quiz_app
 
 import (
+	"flag"
 	"log"
 	"os"
 )
@@ -11,8 +12,11 @@ func checkError(err error) {
 	}
 }
 
-func Run(filePath string) {
-	f, err := os.Open(filePath)
+func Run() {
+	quizFilePath := flag.String("p", "", "path to question file")
+	flag.Parse()
+
+	f, err := os.Open(*quizFilePath)
 	checkError(err)
 
 	questions, err := parse(f)

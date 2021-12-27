@@ -1,10 +1,25 @@
 package quiz_app
 
-import "os"
+import (
+	"log"
+	"os"
+)
 
-func Quiz(filePath string) {
-	f, _ := os.Open(filePath)
-	questions, _ := parse(f)
-	correct, _ := quiz(questions, os.Stdin)
+func checkError(err error) {
+	if err != nil {
+		log.Fatal(err)
+	}
+}
+
+func Run(filePath string) {
+	f, err := os.Open(filePath)
+	checkError(err)
+
+	questions, err := parse(f)
+	checkError(err)
+
+	correct, err := quiz(questions, os.Stdin)
+	checkError(err)
+
 	displayResult(os.Stdout, correct, len(questions))
 }

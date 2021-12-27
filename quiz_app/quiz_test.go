@@ -4,6 +4,7 @@ import (
 	"os"
 	"strings"
 	"testing"
+	"time"
 )
 
 func TestQuiz(t *testing.T) {
@@ -38,7 +39,7 @@ func TestQuiz(t *testing.T) {
 		reader := simulateUserInput(t, []string{"2", "2", "2"})
 
 		want := 3
-		got, _ := quiz(questions, reader)
+		got, _ := quiz(questions, reader, time.Second)
 		if got != want {
 			t.Errorf("want %d correct answers, got %d", want, got)
 		}
@@ -48,7 +49,18 @@ func TestQuiz(t *testing.T) {
 		reader := simulateUserInput(t, []string{"2", "1", "2"})
 
 		want := 2
-		got, _ := quiz(questions, reader)
+		got, _ := quiz(questions, reader, time.Second)
+		if got != want {
+			t.Errorf("want %d correct answers, got %d", want, got)
+		}
+	})
+
+	t.Run("should exit when time allowed is expired", func(t *testing.T) {
+		reader := simulateUserInput(t, []string{"2", "2", "2"})
+
+		want := 0
+		// should exit immediately
+		got, _ := quiz(questions, reader, 0)
 		if got != want {
 			t.Errorf("want %d correct answers, got %d", want, got)
 		}

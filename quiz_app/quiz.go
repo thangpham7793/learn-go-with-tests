@@ -4,9 +4,10 @@ import (
 	"bufio"
 	"fmt"
 	"io"
+	"time"
 )
 
-func quiz(questions []Question, input io.Reader) (int, error) {
+func quiz(questions []Question, input io.Reader, duration time.Duration) (int, error) {
 	scanner := bufio.NewScanner(input)
 	attempt := ""
 	correct := 0
@@ -18,15 +19,20 @@ func quiz(questions []Question, input io.Reader) (int, error) {
 		}
 	}
 
-	for _, q := range questions {
-		fmt.Println(q.prompt)
-		if scanner.Scan() {
-			attempt = scanner.Text()
-			if attempt == q.answer {
-				correct += 1
+	go func() {
+		for _, q := range questions {
+			fmt.Println(q.prompt)
+			if scanner.Scan() {
+				attempt = scanner.Text()
+				if attempt == q.answer {
+					correct += 1
+				}
 			}
 		}
-	}
+	}()
 
-	return correct, nil
+	select {
+	case <-time.After(duration):
+		return correct, nil
+	}
 }

@@ -1,6 +1,7 @@
 package quiz_app
 
 import (
+	"math"
 	"os"
 	"strings"
 	"testing"
@@ -61,6 +62,16 @@ func TestQuiz(t *testing.T) {
 		want := 0
 		// should exit immediately
 		got, _ := quiz(questions, reader, 0)
+		if got != want {
+			t.Errorf("want %d correct answers, got %d", want, got)
+		}
+	})
+
+	t.Run("should exit when all questions are answered but time allowed has not expired", func(t *testing.T) {
+		reader := simulateUserInput(t, []string{"2", "2", "2"})
+
+		want := 3
+		got, _ := quiz(questions, reader, math.MaxInt64)
 		if got != want {
 			t.Errorf("want %d correct answers, got %d", want, got)
 		}

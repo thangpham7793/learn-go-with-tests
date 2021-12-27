@@ -18,6 +18,7 @@ func quiz(questions []Question, input io.Reader, duration time.Duration) (int, e
 			break
 		}
 	}
+	done := make(chan bool)
 
 	go func() {
 		for _, q := range questions {
@@ -29,10 +30,14 @@ func quiz(questions []Question, input io.Reader, duration time.Duration) (int, e
 				}
 			}
 		}
+
+		done <- true
 	}()
 
 	select {
 	case <-time.After(duration):
+		return correct, nil
+	case <-done:
 		return correct, nil
 	}
 }

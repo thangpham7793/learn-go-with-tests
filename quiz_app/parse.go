@@ -3,6 +3,7 @@ package quiz_app
 import (
 	"encoding/csv"
 	"io"
+	"strings"
 )
 
 type Question struct {
@@ -19,7 +20,7 @@ func parse(f io.Reader) ([]Question, error) {
 
 	questions := make([]Question, 0, len(content))
 	for _, q := range content {
-		new := Question{q[0], q[1]}
+		new := Question{strings.TrimSpace(q[0]), strings.TrimSpace(q[1])}
 		questions = append(questions, new)
 	}
 

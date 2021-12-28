@@ -1,0 +1,2 @@
+- path: /handle-func
+  url: https://pkg.go.dev/net/http#HandlerFunc

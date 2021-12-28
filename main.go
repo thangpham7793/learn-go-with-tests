@@ -1,9 +1,9 @@
 package main
 
 import (
-	"github.com/thangpham7793/learn-go-with-tests/quiz_app"
+	"github.com/thangpham7793/learn-go-with-tests/urlshort"
 )
 
 func main() {
-	quiz_app.Run()
+	urlshort.Run()
 }

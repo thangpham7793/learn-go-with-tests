@@ -3,7 +3,9 @@ package quiz_app
 import (
 	"encoding/csv"
 	"errors"
+	"fmt"
 	"io"
+	"os"
 	"strings"
 )
 
@@ -12,10 +14,37 @@ type Question struct {
 	answer string
 }
 
+type QuestionParser func(f io.Reader) ([]Question, error)
+
+type UnsupportedFormatError struct {
+	format string
+}
+
+func (e UnsupportedFormatError) Error() string {
+	return fmt.Sprintf("parse: unsupported format %q", e.format)
+}
+
 var MissingPromptOrAnswerError = errors.New("parse: missing prompt or answer")
 var NoQuestionsGivenError = errors.New("parse: no questions given")
+var parsers = map[string]QuestionParser{
+	"csv": parseCsv,
+}
 
-func parse(f io.Reader) ([]Question, error) {
+func NewQuestionParser(f *os.File) (QuestionParser, error) {
+	name := f.Name()
+	nameParts := strings.Split(name, ".")
+
+	format := nameParts[len(nameParts)-1]
+
+	if p, ok := parsers[format]; !ok {
+		return nil, UnsupportedFormatError{format}
+	} else {
+		return p, nil
+	}
+
+}
+
+func parseCsv(f io.Reader) ([]Question, error) {
 	lines, err := csv.NewReader(f).ReadAll()
 
 	if err != nil {

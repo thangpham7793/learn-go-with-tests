@@ -34,11 +34,13 @@ func Run() {
 	f, err := os.Open(*quizFilePath)
 	checkError(err)
 
-	questions, err := parse(f)
+	parser, err := NewQuestionParser(f)
+	checkError(err)
+
+	questions, err := parser(f)
 	checkError(err)
 
 	durationInSeconds := time.Duration(*duration) * time.Second
-
 	if *shuffleMode {
 		questions = shuffle(questions)
 	}
@@ -46,6 +48,6 @@ func Run() {
 	correct, err := quiz(questions, os.Stdin, durationInSeconds)
 	checkError(err)
 
-	fmt.Printf("%v has passed\n", durationInSeconds)
+	fmt.Printf("\n%v has passed\n", durationInSeconds)
 	displayResult(os.Stdout, correct, len(questions))
 }

@@ -24,9 +24,9 @@ func TestParse(t *testing.T) {
 	}
 
 	t.Run("can parse properly formatted csv question set", func(t *testing.T) {
-		file := makeTempFile(t, "1+1,2")
+		file := makeTempFile(t, "1+1,2\n2+2,3")
 
-		want := []Question{{prompt: "1+1", answer: "2"}}
+		want := []Question{{prompt: "1+1", answer: "2"}, {prompt: "2+2", answer: "3"}}
 		got, _ := parse(file)
 
 		if !reflect.DeepEqual(got, want) {
@@ -42,6 +42,18 @@ func TestParse(t *testing.T) {
 
 		if !reflect.DeepEqual(got, want) {
 			t.Errorf("Got %s want %s", got, want)
+		}
+	})
+
+	t.Run("return an error if no question is given, or a question has no prompt or answer", func(t *testing.T) {
+		testCases := []string{"1+3", "1+1,", ",2", ""}
+		for _, lines := range testCases {
+			file := makeTempFile(t, lines)
+			questions, error := parse(file)
+
+			if error == nil {
+				t.Errorf("case %q: should return error, got %s & no error instead", lines, questions)
+			}
 		}
 	})
 }
